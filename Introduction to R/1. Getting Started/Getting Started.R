@@ -1,4 +1,23 @@
+# Introduction to R #
+
 #1. GETTING STARTED_________________________________
+#This topic cover an introduction for the issues:
+#- Basic Interactions
+#- Entering Input
+#- Setting Workspace
+#- Sequence of Numbers
+#- Creating Vectors
+#- Simulations
+#- Missing Values
+#- Subsetting Vectors
+#- Matrices
+#- Lists
+#- Factors
+#- Data Frames
+#- Logic
+#- Writing Functions
+
+
 #R version:
 R.version.string
 
@@ -170,14 +189,18 @@ my_na <- is.na(my_data)
 my_na
 my_data == NA
 sum(my_na)
+
+notna <- !is.na(my_data)
+sum(notna)
+
 my_data
 0/0
 Inf - Inf
-
+rm(list = ls())
 
 #SUBSETTING VECTORS
 x
-x[1:10]
+x[1:3]
 x[is.na(x)]
 y <- x[!is.na(x)]
 y
@@ -206,7 +229,7 @@ vect[c("foo", "bar")]
   # length
   # other user-defined attributes/metadata
   #Attributes of an object (if any) can be accessed using the attributes() function:
-
+rm(list = ls())
 
 #MATRICES
 #Matrices are vectors with a dimension attribute.
@@ -227,7 +250,8 @@ m
 #Matrices can be created by column-binding or row-binding with the cbind() and rbind() functions.
 x <- 1:3
 y <- 10:12
-cbind(x, y)
+m <- cbind(x, y)
+dim(m)
 rbind(x, y)
 
 
@@ -235,11 +259,12 @@ rbind(x, y)
 #LISTS
 #Lists are a special type of vector that can contain elements of different classes.
 #Lists can be explicitly created using the list() function, which takes an arbitrary number of arguments.
-x <- list(1, "a", TRUE, 1 + 4i)
+x <- list(c(1:10), c("azul","amarelo","vermelho"), TRUE, 1 + 4i, m)
 x
 #We can also create an empty list of a prespecified length with the vector() function
 x <- vector("list", length = 5)
 x
+rm(list = ls())
 
 
 
@@ -270,7 +295,7 @@ x
 #In addition to column names, indicating the names of the variables or predictors,
 #data frames have a special attribute called row.names which indicate information 
 #about each row of the data frame.
-
+rm(x)
 my_vector <- 1:20
 my_vector
 dim(my_vector)
@@ -285,7 +310,7 @@ my_matrix <- my_vector
 my_matrix2 <- matrix(1:20, nrow=4, ncol=5)
 identical(my_matrix, my_matrix2)
 
-patients <- c("Bill", "Gina", "Kelly", "Sean")
+patients <- c("Jose", "Gina", "Kelly", "Sean")
 cbind(patients, my_matrix)
 my_data <- data.frame(patients, my_matrix)
 my_data
@@ -293,16 +318,19 @@ class(my_data)
 cnames <- c("patient", "age", "weight", "bp", "rating", "test")
 colnames(my_data) <- cnames
 my_data
+colnames(my_data) <- c("patient", "age", "weight", "bp", "rating", "test")
+rm(list = ls())
 
 
 #LOGIC
 ?"&&"
 TRUE == TRUE
+2 == 3
 (FALSE == TRUE) == FALSE
 6 == 7
 6 < 7
 10 <= 10
-5!= 7
+5 != 7
 !5 == 7
 FALSE & FALSE
 TRUE & c(TRUE, FALSE, FALSE)
@@ -321,19 +349,20 @@ any(ints<0)
 all(ints>0)
 
 
+
 ##FUNCTIONS
-Sys.Date()
-mean(c(2, 4, 5))
+?function(){}
 
     boring_function <- function(x) {
-         x
+         print(x)
     }
 
 boring_function('My first function!')
 boring_function
 
+
      my_mean <- function(my_vector) {
-       sum(my_vector)/length(my_vector)
+       sum(my_vector) / length(my_vector)
      }
 
 my_mean(c(4, 5, 10))
@@ -348,13 +377,12 @@ remainder(divisor = 11, num = 5)
 remainder(4, div = 2)
 args(remainder)
 
-     evaluate <- function(func, dat){
+     evaluate <- function(func, dat) {
        func(dat)
      }
 
 evaluate(sd, c(1.4, 3.6, 7.9, 8.8))
-evaluate(function(x){x+1}, 6)
-evaluate(function(x){x[1]}, c(8,4,0))
+evaluate(function(x){x+1},6)
 evaluate(function(x){tail(x,1)}, c(8,4,0))
 
 
@@ -379,24 +407,3 @@ mad_libs(place = "country", adjective = "crazy", noun = "bank")
      }
      
 'I'%p%'love'%p%'R!'
-
-
-
-
-
-
-##NEXT
-#Getting data in and out
-#Subsetting and removing NAs
-#Vectorized operations
-#Date and Times
-#Managing data frames
-#Control structures
-#Loop functions
-#Regular expressions
-#Functions and debbuging
-#Case Study
-
-#Importing data
-#Exploratory data analysis
-#Reproducible research, LAteX in Sweave and httr
