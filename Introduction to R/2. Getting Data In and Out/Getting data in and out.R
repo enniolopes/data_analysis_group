@@ -91,7 +91,6 @@ rm(data)
 # - url, opens a connection to a webpage
 
 #File Connections
-str(file)
 #file() function arguments:
 #- description is the name of the file
 #- open is a code indicating what mode the file should be opened in
@@ -135,7 +134,7 @@ con <- url("https://www5.usp.br/", "r")
 ## Read the web page
 x <- readLines(con)
 ## Print out the first few lines
-head(x)
+head(x, 1)
 close(con)
 #While reading in a simple web page is sometimes useful, 
 #particularly if data are embedded in the web page somewhere.
@@ -146,5 +145,160 @@ close(con)
 #and downloading a dataset by hand. Of course, the code you write with connections 
 #may not be executable at a later date if things on the server side are changed or 
 #reorganized.
-
 rm(list = ls())
+
+
+#A little more complex read
+read.table("PETR4.txt")
+readLines("PETR4.txt",10)
+PETR <- read.table("PETR4.txt", header = T, sep=";", dec=",", stringsAsFactors = F, skip = 4, na.strings = "-")
+head(PETR)
+
+
+
+
+#3. SUBSETTING AND REMOVING NAs_____________________
+#There are three operators that can be used to extract subsets of R objects.
+# - The [ operator always returns an object of the same class as the original. It can be
+#   used to select multiple elements of an object
+# - The [[ operator is used to extract elements of a list or a data frame. It can only be 
+#   used to extract a single element and the class of the returned object will not necessarily
+#   be a list or data frame.
+# - The $ operator is used to extract elements of a list or data frame by literal name.
+#   Its semantics are similar to that of [[.
+
+PETR <- read.table("PETR4.txt", header = T, sep=";", dec=",", stringsAsFactors = F, skip = 4, na.strings = "-")
+PETR <- PETR[-1,]
+names(PETR)
+PETR <- PETR[,c(1,2,3,13,14,16)]
+names(PETR)
+colnames(PETR) <- c("date", "close", "open", "return", "returnUS", "liquidity")
+names(PETR)
+head(PETR)
+PETR <- PETR[,-3]
+
+#Do the same for GOLL4.txt
+GOL <- read.table("GOLL4.txt", header = T, sep=";", dec=",", stringsAsFactors = F, skip = 4, na.strings = "-")
+GOL <- GOL[,c(1,2,3,13,14,16)]
+colnames(GOL) <- c("date", "close", "open", "return", "returnUS", "liquidity")
+GOL <- GOL[,-3,drop=T]
+head(GOL)
+tail(GOL)
+head(GOL[!is.na(GOL[,2]),])
+
+#Subset the GOL data from 01/01/2014 to 31/12/2014
+GOL[GOL[,"date"]=="31/12/2013",]
+GOL[GOL[,"date"]=="31/12/2014",]
+GOL <- GOL[2873:3133,]
+head(GOL)
+tail(GOL)
+
+#Subset PETR for the same period
+head(PETR)
+PETR[PETR[,"date"]=="31/12/2013",]
+PETR[PETR[,"date"]=="31/12/2014",]
+PETR <- PETR[7305:7565,]
+head(PETR)
+tail(PETR)
+
+
+#Put data frames into a list
+quotes <- list(GOL=GOL,PETR=PETR)
+names(quotes)
+names(quotes[["PETR"]])
+names(quotes[["GOL"]])
+
+## computed index for "PETR"
+name <- "PETR"
+head(quotes[[name]])
+## element "name" doesn't exist! (but no error here)
+quotes$name
+## element "PETR" does exist
+head(quotes$PETR[2])
+rm(name)
+
+#Data pooled
+#compute the id (ticker)
+PETR$id <- "PETR"
+head(PETR)
+GOL$id <- "GOL"
+head(GOL)
+
+pooled <- rbind(PETR,GOL)
+head(pooled)
+tail(pooled)
+pooled[pooled$id=="GOL",]
+
+#Pooled from a list
+install.packages(data.table)
+library("data.table")
+pooled2 <- rbindlist(quotes)
+head(pooled2)
+tail(pooled2)
+
+#Split pooled data into a list
+quotes2 <- split(pooled, pooled$id)
+
+
+#Summary analysis
+str(PETR)
+str(GOL)
+PETR[c("close","return","returnUS","liquidity")] <- sapply(PETR[c("close","return","returnUS","liquidity")], type.convert, dec=",")
+PETR$date <- as.Date(PETR$date, format = "%d/%m/%Y")
+GOL[c("close","return","returnUS","liquidity")] <- sapply(GOL[c("close","return","returnUS","liquidity")], type.convert, dec=",")
+GOL$date <- as.Date(GOL$date, format = "%d/%m/%Y")
+str(PETR)
+str(GOL)
+summary(PETR)
+
+
+#NAs
+rm(pooled,pooled2,quotes,quotes2,GOL)
+
+#How to work with NAs?
+#In general the functions have the argument "na.rm" to compute or not NAs on the process
+
+mean(PETR$close)
+mean(PETR$close, na.rm=T)
+
+#The function complete.cases() returns a logical vector indicating which cases are complete
+complete.cases(PETR)
+cPETR <- PETR[complete.cases(PETR),]
+
+#only "close" data complete cases:
+closePETR <- PETR[complete.cases(PETR$close),]
+
+#or use the function na.omit()
+#it returns the object with listwise deletion of missing values.
+cPETR <- na.omit(PETR)
+
+#For a vector replacing with some value:
+PETR$close0 <- PETR$close
+PETR$close0[is.na(PETR$close0)] <- 0
+PETR$close0
+
+PETR$closeM <- PETR$close
+PETR$closeM[is.na(PETR$closeM)] <- mean(PETR$closeM, na.rm = T)
+
+  #a function for this:
+  na.zero <- function (x) {
+    x[is.na(x)] <- 0
+    return(x)
+  }
+
+PETR$close0 <- na.zero(PETR$close)
+tail(PETR)
+
+#Functions to fill NAs
+library(zoo)
+#you can use the args from the fuction na.fill to choose how to fill NAs:
+#extend to indicate repetition of the leftmost or rightmost non-NA value or 
+#linear interpolation in the interior
+tail(na.fill(PETR$close,"extend"))
+
+## use underlying time scale for interpolation
+tail(na.approx(PETR$close),20)
+#with and without na.rm = FALSE
+na.approx(PETR$close, na.rm = FALSE)
+
+

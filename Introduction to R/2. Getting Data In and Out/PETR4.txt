@@ -1,4 +1,9 @@
+
+"Matrixx"
+"Petrobras PN (PETR4)"
+
 "Date";"Close|adj by CA's|orig currency";"Open|adj by CA's|orig currency";"Low|adj by CA's|orig currency";"High|adj by CA's|orig currency";"Average|adj by CA's|orig currency";"#Trades";"#Shares|adj by CA's";"Volume$|orig currency";"#Shares|Outstanding|of class";"#Shares|Issued|of class";"#Shares|Treasury|of class";"Return|of close|daily average|in 1 day|orig currency|adj by CA's";"Return|of close|daily average|in 1 day|in US Dollars|adj by CA's";"Divid per Share|1 days|orig currency";"Stock Liquidity|1 months|orig currency";"Negotiability|1 months|orig currency";"Presence|1 months"
+;"PETR4";"PETR4";"PETR4";"PETR4";"PETR4";"PETR4";"PETR4";"PETR4";"PETR4";"PETR4";"PETR4";"PETR4";"PETR4";"PETR4";"PETR4";"PETR4";"PETR4"
 "02/01/1986";9,6250360881E-10;9,6250360881E-10;9,6249226986E-10;9,7383850851E-10;9,6365862929E-10;57;1236650,6354;0,0033635406525;"-";"-";"-";"-";"-";"-";"-";"-";5,2631578947
 "03/01/1986";9,9081251069E-10;9,6250360881E-10;9,6250360881E-10;1,0077978518E-9;9,8261424784E-10;108;6102584,7348;0,016924791091;"-";"-";"-";2,9411735833;2,2632919136;0;"-";"-";10,526315789
 "06/01/1986";1,0474303819E-9;1,0191214125E-9;1,0191214125E-9;1,0757392838E-9;1,0464225653E-9;84;3652152,7967;0,010786547905;"-";"-";"-";5,7142870766;5,0226982827;0;"-";"-";17,647058824
