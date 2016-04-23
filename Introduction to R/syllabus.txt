@@ -1,0 +1,29 @@
+#4. VECTORIZED OPERATIONS___________________________
+#5. DATE AND TIMES__________________________________
+#9. REGULAR EXPRESSIONS_____________________________
+	put it into 1_getting_started.R
+
+
+#6. MANAGING DATA FRAMES____________________________
+	put it into 3_managing_and_nas.R
+
+
+#7. CONTROL STRUCTURES______________________________
+#8. LOOP FUNCTIONS__________________________________
+#10.FUNCTIONS AND DEBBUGING_________________________
+	make a new topic: 4_start_programing.R
+
+
+#11.CASE STUDY______________________________________
+	how to use financial methods in R
+
+
+
+After R Introduction start with these ones:
+#Importing and cleaning data working cases
+#Reproducible research, LAteX in Sweave and httr
+
+
+Later:
+#Exploratory data analysis
+#Statistical Inference and Regression Models
