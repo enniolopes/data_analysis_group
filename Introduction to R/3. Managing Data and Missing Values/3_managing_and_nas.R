@@ -39,7 +39,7 @@ x[1, , drop = FALSE]
 
 ##Read the data "PETR4.txt"
 rm(list = ls())
-setwd("D:/$github/data_analysis_group/Introduction to R/2. Getting Data In and Out")
+setwd("D:/$github/data_analysis_group/Introduction to R/datasets")
 getwd()
 dir()
 PETR <- read.table("PETR4.txt"
@@ -236,5 +236,4 @@ write.csv2(PETR, file = "PETR4.csv", row.names = F, dec = ",")
     PETR[PETR[,"date"]=="2014-12-31",]
     PETR <- PETR[7306:7566,]
     
-#If the median is minor than mean when fill NAs with interpolation it will get down the final mean?
-    
+#If the median is minor than the mean, when you fill NAs with interpolation it will get down the final mean?

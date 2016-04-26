@@ -8,12 +8,6 @@
 	put it into 3_managing_and_nas.R
 
 
-#7. CONTROL STRUCTURES______________________________
-#8. LOOP FUNCTIONS__________________________________
-#10.FUNCTIONS AND DEBBUGING_________________________
-	make a new topic: 4_start_programing.R
-
-
 #11.CASE STUDY______________________________________
 	how to use financial methods in R
 
