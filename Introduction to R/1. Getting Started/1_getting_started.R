@@ -1,27 +1,10 @@
 # Introduction to R #
 
 #1. GETTING STARTED_________________________________
-#This topic cover an introduction for the issues:
-#- Basic Interactions
-#- Entering Input
-#- Setting Workspace
-#- Sequence of Numbers
-#- Creating Vectors
-#- Simulations
-#- Missing Values
-#- Subsetting Vectors
-#- Matrices
-#- Lists
-#- Factors
-#- Data Frames
-#- Logic
-#- Writing Functions
+      #R version:
+      R.version.string
 
-
-#R version:
-R.version.string
-
-#Installing and using packages:
+# Installing and using packages -------------------------------------------
 installed.packages()
 rownames(installed.packages())
 update.packages(ask=FALSE)
@@ -29,7 +12,7 @@ install.packages("tseries")
 help(package="tseries")
 library(tseries)
 
-## BASICS INTERACTING
+# BASICS INTERACTING ------------------------------------------------------
 1
 5 + 7       #adition
 7 - 2       #subtraction
@@ -39,8 +22,7 @@ library(tseries)
 5 %/% 2     #integer division
 5 %% 2    #mod
 
-
-## ENTERING INPUT
+# ENTERING INPUT ----------------------------------------------------------
 x <- 5 + 7  #assignment operator
 x
 print(x)
@@ -60,8 +42,7 @@ c(1, 2, 3, 4) + c(0, 10, 100)
 z*2 + 1000
 my_div
 
-
-##SETTING WORKSPACE
+# SETTING WORKSPACE -------------------------------------------------------
 getwd()
 dir()
 ?list.files
@@ -85,8 +66,7 @@ file.copy("mytest2.R", "mytest3.R")
 setwd(old.dir)
 rm(old.dir)
 
-
-##SEQUENCE OF NUMBERS
+# SEQUENCE OF NUMBERS -----------------------------------------------------
 1:20
 pi:10
 15:1
@@ -103,22 +83,21 @@ rep(c(0, 1, 2), times=10)
 rep(c(0, 1, 2), each=10)
 rm(my_seq)
 
-##R has five basic or "atomic" classes of objects:
-  # character
-  # numeric (real numbers)
-  # integer
-  # complex
-  # logical (True/False)
+# OBJECTS CLASSES ---------------------------------------------------------
+      ##R has five basic or "atomic" classes of objects:
+            # character
+            # numeric (real numbers)
+            # integer
+            # complex
+            # logical (True/False)
+      #Numbers are generally trated as numeric objects, if you explicitly want an integer, 
+      #you need to specify the L suffix
+      x <- 5
+      class(x)
+      y <- 5L
+      class(y)
 
-#Numbers are generally trated as numeric objects, if you explicitly want an integer, 
-#you need to specify the L suffix
-x <- 5
-class(x)
-y <- 5L
-class(y)
-
-
-##CREATING VECTORS
+# CREATING VECTORS --------------------------------------------------------
 #The c() function can be used to create vectors of objects by concatenating things together.
 num_vect <- c(0.5, 55, -10, 6)
 tf <- num_vect < 1
@@ -135,10 +114,10 @@ paste(1:3, c("X","Y","Z"), sep ="")
 LETTERS
 paste(LETTERS, 1:4, sep = "-")
 
-  #Mixing Objects
-  y <- c(1.7, "a") ## character
-  y <- c(TRUE, 2) ## numeric
-  y <- c("a", TRUE) ## character
+#Mixing Objects
+y <- c(1.7, "a") ## character
+y <- c(TRUE, 2) ## numeric
+y <- c("a", TRUE) ## character
 
   #Explicit Coercion
   x <- 0:6
@@ -146,13 +125,12 @@ paste(LETTERS, 1:4, sep = "-")
   as.numeric(x)
   as.logical(x)
   as.character(x)
-    #Warning: NAs introduced by coercion
-    x <- c("a", "b", "c")
-    as.numeric(x)
-    rm(x,y)
+  #Warning: NAs introduced by coercion
+  x <- c("a", "b", "c")
+  as.numeric(x)
+  rm(x,y)
 
-    
-#SIMULATIONS
+# SIMULATIONS -------------------------------------------------------------
 #The sample() function draws randomly from a specified set of (scalar) objects allowing you to
 #sample from arbitrary distributions of numbers.
 set.seed(51)
@@ -179,7 +157,7 @@ cm <- colMeans(my_pois)
 hist(cm)
 rm(list = ls())
 
-#MISSING VALUES INTRO
+# MISSING VALUES INTRO ----------------------------------------------------
 x <- c(44, NA, 5, NA)
 x*3
 y <- rnorm(1000)
@@ -198,7 +176,7 @@ my_data
 Inf - Inf
 rm(list = ls())
 
-#SUBSETTING VECTORS
+# SUBSETTING VECTORS ------------------------------------------------------
 x
 x[1:3]
 x[is.na(x)]
@@ -231,7 +209,7 @@ vect[c("foo", "bar")]
   #Attributes of an object (if any) can be accessed using the attributes() function:
 rm(list = ls())
 
-#MATRICES
+# MATRICES ----------------------------------------------------------------------
 #Matrices are vectors with a dimension attribute.
 #The dimension attribute is itself an integer vector of length 2 (number of rows, number of columns)
 m <- matrix(nrow = 2, ncol = 3)
@@ -242,6 +220,11 @@ attributes(m)
 #"upper left" corner and running down the columns.
 m <- matrix(1:6, nrow = 2, ncol = 3)
 m
+n = matrix(
+      1:10,            #the data elements
+      nrow=2,          #number of rows
+      ncol=5,          #number of columns
+      byrow = TRUE)    #fill matrix by rows
 #Matrices can also be created directly from vectors by adding a dimension attribute.
 m <- 1:10
 m
@@ -253,10 +236,66 @@ y <- 10:12
 m <- cbind(x, y)
 dim(m)
 rbind(x, y)
+rm(m,n,x,y)
 
+# VECTORIZED OPERATIONS ----------------------------------------------------------------------
+      #adding two vectors together
+x <- 1:4
+y <- 11:14
+z <- x + y
+z
+z > 15 #logical operations return a logical vector of TRUE/FALSE
+x >= 2
+x - y
+x * y
+x / y
+rm(x,y,z)
 
+##Vectorized Matrix Operations
+      #Matrix operations are also vectorized (element-by-element operations).
+A <- matrix(1:4, 2, 2)
+B <- matrix(11:14, 2, 2)
+x <- rnorm(4)
+b <- rbinom(2,1,.5)
+k <- 5
+A * B
+A / B
+A * k
+      #Next some operators and functions specifically suited to linear algebra.
+      install.packages("MASS")
+      library(MASS)
+A %*% B           #Matrix multiplication
+crossprod(A,B)
+crossprod(A)	#A'B and A'A
+t(A)              #Transpose
+diag(x)           #Creates diagonal matrix with elements of x in the principal diagonal
+diag(A)           #Returns a vector containing the elements of the principal diagonal
+diag(k)           #If k is a scalar, this creates a k x k identity matrix
+solve(A, b)       #Returns vector x in the equation b = Ax (= A-1b)
+solve(A)          #Inverse of A (square matrix).
+ginv(A)           #Moore-Penrose Generalized Inverse of A (MASS package).
+y <- eigen(A)     #(https://pt.wikipedia.org/wiki/Valor_pr%C3%B3prio)
+                  #(https://pt.wikipedia.org/wiki/Vector_pr%C3%B3prio)
+      y$val       #are the eigenvalues of A.
+      y$vec       #are the eigenvectors of A.
+y <- svd(A)	      #Single value decomposition of A.
+                  #(https://pt.wikipedia.org/wiki/Decomposi%C3%A7%C3%A3o_em_valores_singulares).
+      y$d         #vector containing the singular values of A
+      y$u         #matrix with columns contain the left singular vectors of A 
+      y$v         #matrix with columns contain the right singular vectors of A
+y <- qr(A)        #QR decomposition of A.
+      y$qr        #has an upper triangle that contains the decomposition and a lower triangle 
+                  #that contains information on the Q decomposition.
+      y$rank      #is the rank of A. 
+      y$qraux     #a vector which contains additional information on Q. 
+      y$pivot     #contains information on the pivoting strategy used.
+rowMeans(A)
+rowSums(A)
+colMeans(A)
+colSums(A)
+      #for more details you can look up in: http://www.statmethods.net/advstats/matrix.html
 
-#LISTS
+# LISTS -------------------------------------------------------------------
 #Lists are a special type of vector that can contain elements of different classes.
 #Lists can be explicitly created using the list() function, which takes an arbitrary number of arguments.
 x <- list(c(1:10), c("azul","amarelo","vermelho"), TRUE, 1 + 4i, m)
@@ -266,9 +305,7 @@ x <- vector("list", length = 5)
 x
 rm(list = ls())
 
-
-
-#FACTORS
+# FACTORS -----------------------------------------------------------------
 #Factors are used to represent categorical data and can be unordered or ordered.
 #One can think of a factor as an integer vector where each integer has a label.
 #Using factors with labels is better than using integers because factors are self-describing.
@@ -287,8 +324,7 @@ x ## Levels are put in alphabetical order
 x <- factor(c("yes", "yes", "no", "yes", "no"), levels = c("yes", "no"))
 x
 
-
-##DATA FRAMEs
+# DATA FRAME --------------------------------------------------------------
 #Data frames are used to store tabular data in R.
 #package dplyr has an optimized set of functions designed to work efficiently with data frames.
 #Unlike matrices, data frames can store different classes of objects in each column.
@@ -321,8 +357,7 @@ my_data
 colnames(my_data) <- c("patient", "age", "weight", "bp", "rating", "test")
 rm(list = ls())
 
-
-#LOGIC
+# LOGIC -------------------------------------------------------------------
 ?"&&"
 TRUE == TRUE
 2 == 3
@@ -332,6 +367,8 @@ TRUE == TRUE
 10 <= 10
 5 != 7
 !5 == 7
+#use the `&` operator to evaluate 'AND' across a vector. The `&&` version of AND only
+#evaluates the first member of a vector
 FALSE & FALSE
 TRUE & c(TRUE, FALSE, FALSE)
 TRUE && c(TRUE, FALSE, FALSE)
@@ -348,9 +385,115 @@ which(ints > 7)
 any(ints<0)
 all(ints>0)
 
+# DATE AND TIMES ----------------------------------------------------------------------
+      #dates are represented by the Date class and times are represented by the POSIXct
+      #or the POSIXlt class.
+Sys.getlocale("LC_TIME")
+Sys.Date()
+Sys.time()
+##Dates
+d <- as.Date("1970-01-01")
+d
+class(d)
+unclass(d)
+unclass(as.Date("1970-01-02"))
+unclass(as.Date("1969-01-01"))
+      #some functions to work with dates:
+weekdays(d)
+months(d)
+quarters(d)
+##Times
+      #POSIXct is a very large integer - useful for data frames;
+      #POSIXlt is a list that stores informations of the date (day of the week, month).
+t <- Sys.time()
+t
+class(t)
+      #can be coerced using the as.POSIXlt() or as.POSIXct().
+p <- as.POSIXlt(t)
+names(unclass(p))
+p$wday
+      #to use as POSIXct()
+d <- Sys.time()
+d     #already in POSIXct class
+unclass(d)
+d$sec #can't extract with 'POSIXct'
+d <- as.POSIXlt(d)
+d$sec
+rm(d,p,t)
+      #in case your dates are written in a different format:
+?strptime() #takes a character of dates and times and converts into POSIXlt.
+d <- c("Janeiro 10, 2012 10:40", "Dezembro 9, 2011 9:10")
+class(d)
+d <- strptime(d, "%B %d, %Y %H:%M") #% are the formatting strings for dates and times
+d
+class(d)
+      #for the formatting strings check ?strptime for details.
+##Operations
+      #can use '+' and '-', and comparisons (i.e. ==, <=)
+d <- as.Date("2016-01-01")
+t <- strptime("3 mar 2015 11:34:21", "%d %b %Y %H:%M:%S")
+d-t
+d <- as.POSIXlt(d)
+d-t
+      #it keep track of things about dates and times, like leap years, time zones
+d <- as.Date("2016-03-01")
+t <- as.Date("2016-02-20")
+d-t
+      #two different time zones
+d <- as.POSIXct("2016-05-03 14:00:00")
+t <- ?as.POSIXct("2016-05-03 14:00:00", tz = "GMT")
+d-t
+difftime(Sys.time(), d, units = 'days')
+##good package to work with dates and times: 'lubridate'
+rm(list = ls())
 
+# REGULAR EXPRESSIONS ----------------------------------------------------------------------
+      #here we will running example using data from homicides in Baltimore City:
+      #http://data.baltimoresun.com/news/police/homicides/
+      #The data are scrapped in "homicide.txt"
+setwd("D:\\$github\\data_analysis_group\\Introduction to R\\datasets")
+homicides <- readLines("homicides.txt")
+length(homicides)
+homicides[1]      #each element of the character vector represents one event
+homicides[1000]   #data have the HTML tags - they were scraped directly from the website
+      #The primary R functions for dealing with regular expressions are:
+##grep(), grepl()
+      #Search for regular expression/pattern in a character vector
+g <- grep("iconHomicideShooting", homicides)
+length(g)
+g
+      #grep() returns the indices into the character vector that contain a match
+      #or the specific strings that happen to have the match.
+      #for some entries the flag is different 'icon_homicide_shooting':
+g <- grep("iconHomicideShooting|icon_homicide_shooting", homicides)
+length(g)
+      #can grep() on the cause of death field with the format 'Cause: shooting'
+g <- grep("Cause: shooting", homicides)
+length(g)
+      #sometimes "shooting" uses a captial "S"
+g <- grep("[Cc]ause: [Ss]hooting", homicides)
+length(g)
+      #be careful when processing text data to don't grep data out of context
+g <- grep("[Ss]hooting", homicides)
+length(g)
+str(g)
+i <- grep("[cC]ause: [Ss]hooting", homicides)
+str(i)
+setdiff(i, g)
+setdiff(g, i)
+homicides[318]
+      #set 'value' = TRUE for elements of the character.
+?state.name
+state.name
+grep("^New", state.name)
+grep("^New", state.name, value=T)
+      #grepl() works like grep() except that it differs in its return value
+      #returns a TRUE/FALSE vector
+g <- grepl("^New", state.name)
+g
+state.name[g]
 
-##FUNCTIONS
+# FUNCTIONS ---------------------------------------------------------------
 ?function(){}
 
     boring_function <- function(x) {

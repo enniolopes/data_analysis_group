@@ -22,7 +22,7 @@
 #We will use here the files: "PETR4.txt", "SPETR4.txt", "GOLL4.txt"
 #Set the working directory where the files are or use the complete location when read it
 rm(list = ls())
-setwd("D:/$github/data_analysis_group/Introduction to R/2. Getting Data In and Out")
+setwd("D:/$github/data_analysis_group/Introduction to R/")
 getwd()
 dir()
 
@@ -41,7 +41,7 @@ dir()
 
 #Read the file SPETR4.txt with the function read.table()
 #this file contains two columns, date and closed price for PETR4 quotation
-data <- read.table("SPETR4.txt")
+data <- read.table("./datasets/SPETR4.txt")
 data
 head(data)
 tail(data)
@@ -49,12 +49,12 @@ rm(data)
 
 #For large data sets we can optimize the function inserting the argument colClasses - a vector
 #specifying the classes of the columns:
-initial <- read.table("SPETR4.txt", nrows = 100)
+initial <- read.table("./datasets/SPETR4.txt", nrows = 100)
 classes <- sapply(initial, class) #the function sapply will apply class() over all columns (vectors) of initial
 rm(initial)
 #We created a vector of the classes of the columns of SPETR4.txt reading just 100 rows of the file
 #(don't need too much memory for this), now let's read the entire data using this vector:
-tabAll <- read.table("SPETR4.txt", colClasses = classes)
+tabAll <- read.table("./datasets/SPETR4.txt", colClasses = classes)
 tabAll
 head(tabAll)
 tail(tabAll)
@@ -72,7 +72,7 @@ install.packages("readr")
 #and provide a nice feature for progress meter.
 #The analogous functions in readr are read_table(), read_csv() and read_csv2().
 library("readr")
-data <- read_table("SPETR4.txt")
+data <- read_table("./datasets/SPETR4.txt")
 data
 head(data)
 tail(data)
@@ -80,9 +80,9 @@ rm(data)
 
 
 #A little more complex read
-read.table("PETR4.txt")
+read.table("./datasets/PETR4.txt")
 readLines("PETR4.txt",10)
-PETR <- read.table("PETR4.txt"
+PETR <- read.table("./datasets/PETR4.txt"
                    , header = T
                    , sep=";"
                    , dec=","
@@ -91,7 +91,7 @@ PETR <- read.table("PETR4.txt"
                    , na.strings = "-")
 class(PETR)
 head(PETR)
-
+rm(list = ls())
 
 
 ###   QUESTIONS   ###

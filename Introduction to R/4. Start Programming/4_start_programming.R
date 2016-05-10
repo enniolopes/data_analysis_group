@@ -24,7 +24,7 @@ if(x > 3) {
 } else {
       y <- 0
 }
-rm(x,y,i)
+rm(x,y)
 
 
 #FOR
@@ -133,7 +133,7 @@ library(dplyr)
 search()
 
 #The scoping rules of a language determine how a value is associated with a free variable in a function.
-#R uses lexical scoping or static scoping. 
+#R uses lexical scoping or static scoping.
 #(http://en.wikipedia.org/wiki/Scope_(computer_science)#Lexical_scope_vs._dynamic_scope)
 f <- function(x, y) {
       x^2 + y / z
@@ -210,7 +210,7 @@ str(tapply)
       #X is a vector
       #INDEX is a factor or a list of factors (or else they are coerced to factors)
       #FUN is a function to be applied
-      #. contains other arguments to be passed FUN
+      #... contains other arguments to be passed FUN
       #simplify, should we simplify the result?
 x <- c(rnorm(10), runif(10), rnorm(10, 1))
 f <- gl(3, 10)
@@ -235,7 +235,7 @@ apply(x, 2, quantile, probs = c(0.25, 0.75))
 rm(x)
 
 ##    mapply():   Multivariate version of lapply
-#others APPLYs() only iterate over a single R object, mapply() is to iterate
+#others APPLYs() only interate over a single R object, mapply() is to iterate
 #over multiple R objects in parallel
 str(mapply)
       #FUN is a function to apply
@@ -301,7 +301,7 @@ printmessage3(x)
 #Vectorizing the function can be accomplished easily with the Vectorize() function.
 printmessage4 <- Vectorize(printmessage2)
 printmessage4(c(-1, 2)) #Vectorize() function it no longer preserves the invisibility
-
+rm(list = ls())
 
 #The primary task of debugging any R code is correctly diagnosing what the problem is.
 #When diagnosing it's important first understand what you were expecting to occur.

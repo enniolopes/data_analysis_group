@@ -85,7 +85,7 @@ head(GOL[!is.na(GOL[,2]),])
 str(PETR)
 str(GOL)
 #Use sapply to coerce the columns close, return, returnUS, liquidity to numeric
-#and date as.Date
+#and date with as.Date()
 PETR[c("close","return","returnUS","liquidity")] <- sapply(PETR[c("close","return","returnUS","liquidity")], type.convert, dec=",")
 PETR$date <- as.Date(PETR$date, format = "%d/%m/%Y")
 GOL[c("close","return","returnUS","liquidity")] <- sapply(GOL[c("close","return","returnUS","liquidity")], type.convert, dec=",")
@@ -167,6 +167,7 @@ mean(PETR$close, na.rm=T)
 
 #The function complete.cases() returns a logical vector indicating which cases are complete
 complete.cases(PETR)
+cPETR <- PETR[complete.cases(PETR$close,PETR$liquidity),] #keep only lines that 'close' and 'liquidity' are complete
 cPETR <- PETR[complete.cases(PETR),] #keep only lines that are complete
 
 #only "close" data complete cases (drop all lines that have NAs on the column "close"):
