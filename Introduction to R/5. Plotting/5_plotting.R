@@ -16,10 +16,13 @@ str(PETR)
 
 ?plot
 hist(PETR$close)  #defaults arguments
+hist(PETR$close, breaks = 15)
 plot(PETR$liquidity, PETR$close)
 with(PETR, plot(return, returnUS))
 
+library(lubridate)
 PETR$month <- month(PETR$date)
+str(PETR)
 PETR <- transform(PETR, month = factor(month))
 boxplot(return ~ month, PETR, xlab = "month", ylab="return")
       # the function colors() gives a list of possibilities
@@ -57,23 +60,53 @@ plot(y = PETR$close, x = PETR$liquidity,
 #when the plotting are finished, close the device with the function dev.off(), example:
 windows(title = "Plotting PETR4")
 x <- seq(1:nrow(PETR))
-plot(PETR$return~x, pch = 19)
+plot(PETR$return~x, pch = 13)
 title("PETR4 2014 time series return")
 text(30,-10, "simple return")
-legend("topleft", legend = "return", pch = 20)
+legend("topleft", legend = "return", pch = 13)
 fit <- lm(PETR$return ~x)
 abline(fit, lwd = 2, col = "blue")
 rm(x,fit)
 dev.off()
       #now make it for an image device!
+?bmp
+bmp(filename = 'plotPETR.bmp', width = 480, height = 480)
+x <- seq(1:nrow(PETR))
+plot(PETR$return~x, pch = 13)
+title("PETR4 2014 time series return")
+text(30,-10, "simple return")
+legend("topleft", legend = "return", pch = 13)
+fit <- lm(PETR$return ~x)
+abline(fit, lwd = 2, col = "blue")
+rm(x,fit)
+dev.off()
+
+?pdf
+pdf(file = 'plotPETR4.pdf')
+x <- seq(1:nrow(PETR))
+plot(PETR$return~x, pch = 13)
+title("PETR4 2014 time series return")
+text(30,-10, "simple return")
+legend("topleft", legend = "return", pch = 13)
+fit <- lm(PETR$return ~x)
+abline(fit, lwd = 2, col = "blue")
+rm(x,fit)
+dev.off()
 
 # The Lattice System ------------------------------------------------------
 #implemented by lattice package - install.packages("lattice")
 #created with a single function, like (xyplot, bwplot)
 #can't add to the plot once it is created
 #example: 
-library(lattice)
+
+if (installed.packages()["lattice",1] == "lattice") {
+      print("lattice package already installed")
+      library(lattice)
+} else {
+      install.packages("lattice")
+      library(lattice)
+}
+
 PETR$quarter <- as.factor(quarter(PETR$date))
 str(PETR)
 xyplot(close ~ liquidity | quarter, data=PETR, layout=c(4,1))
-
