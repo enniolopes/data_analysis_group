@@ -116,13 +116,13 @@ str(petr)
       #colors or shapes is confusing
       par(mfrow = c(1, 2), mar = c(5, 4, 2, 1))
       with(subset(petr, crisis == FALSE),
-           plot(liquidity, volatility, 
-                main = "Non Crisis", 
+           plot(liquidity, volatility,
+                main = "Non Crisis",
                 ylim = c(-15,15),
                 xlim = c(4,17)))
-      with(subset(petr, crisis == TRUE), 
-           plot(liquidity, volatility, 
-                main = "Crisis", 
+      with(subset(petr, crisis == TRUE),
+           plot(liquidity, volatility,
+                main = "Crisis",
                 ylim = c(-15,15),
                 xlim = c(4,17)))
 

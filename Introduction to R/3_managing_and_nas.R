@@ -199,9 +199,11 @@ str(PETR)
 #Some functions to fill NAs
 library(zoo)
 #you can use the args from the fuction na.fill to choose how to fill NAs:
-#extend to indicate repetition of the leftmost or rightmost non-NA value
+#arg 'extend' is to indicate repetition of the leftmost or rightmost non-NA value
 PETR$closeE <- na.fill(PETR$close,"extend")
 tail(PETR)
+#fill with the last non missing value
+PETR$closeL <- na.locf(PETR$close)
 
 #use underlying time scale for interpolation
 closeI <- na.approx(PETR$close)
@@ -232,9 +234,10 @@ write.csv2(PETR, file = "PETR4.csv", row.names = F, dec = ",")
     row.names(PETR) <- seq_len(nrow(PETR)) #the same if use NULL
 
 #How to know the position of a logical subset?
-    #eg. I want to filter by this interval below without setting the rows references manualy:
+    #e.g. I want to filter by this interval below without setting the rows references manualy:
     PETR[PETR[,"date"]=="2013-12-31",]
     PETR[PETR[,"date"]=="2014-12-31",]
     PETR <- PETR[7306:7566,]
     
-#If the median is minor than the mean, when you fill NAs with interpolation it will get down the final mean?
+#If the median is minor than the mean, when you fill NAs with interpolation it will get down 
+      #the final mean?
